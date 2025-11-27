@@ -5,7 +5,7 @@ A powerful Natural Language to SQL (NL2SQL) system that leverages a locally runn
 ## Features
 
 - **Natural Language to SQL**: Convert English questions into valid SQL queries.
-- **Local Model Execution**: Uses `Kiyk0/TinyLlama-NL2SQL` running locally for privacy and performance.
+- **Local Model Execution**: Uses [TinyLlama-NL2SQL](https://huggingface.co/Kiyk0/TinyLlama-NL2SQL/tree/main) running locally for privacy and performance.
 - **Schema-Aware RAG**: Retrieves relevant tables and schema context using vector embeddings (FAISS) to improve accuracy.
 - **Interactive UI**: React-based frontend for easy interaction and result visualization.
 - **Model Notebook**: Includes `model/tinyllama.ipynb` for model training and fine-tuning experiments.
