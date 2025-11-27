@@ -1,0 +1,13 @@
+sentence-transformers
+faiss-cpu
+numpy
+mysql-connector-python
+pandas
+huggingface_hub
+sqlparse
+fastapi
+uvicorn
+python-dotenv
+transformers
+torch
+accelerate
