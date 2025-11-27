@@ -1,0 +1,2026 @@
+{
+  "database": "elearning",
+  "extracted_at": "2025-11-25T18:55:16.327858",
+  "tables": [
+    {
+      "table_name": "categories",
+      "description": "Course categories and subcategories",
+      "business_context": "Hierarchical organization of course topics",
+      "row_count": 8,
+      "columns": [
+        {
+          "name": "category_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "category_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "Business",
+            "Data Analysis",
+            "Data Science",
+            "Design",
+            "Machine Learning"
+          ]
+        },
+        {
+          "name": "description",
+          "data_type": "text",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "Software development and coding courses",
+            "Analytics, ML, and data engineering",
+            "Management and entrepreneurship",
+            "UI/UX and graphic design",
+            "Frontend and backend web technologies"
+          ]
+        },
+        {
+          "name": "parent_category_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "categories.category_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2
+          ]
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2025-11-24 02:06:41"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "category_name",
+          "columns": [
+            "category_name"
+          ],
+          "is_unique": true
+        },
+        {
+          "index_name": "parent_category_id",
+          "columns": [
+            "parent_category_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "category_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "many-to-one",
+          "from_column": "parent_category_id",
+          "to_table": "categories",
+          "to_column": "category_id",
+          "join_condition": "categories.parent_category_id = categories.category_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "category_id",
+          "to_table": "categories",
+          "to_column": "parent_category_id",
+          "join_condition": "categories.category_id = categories.parent_category_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "category_id",
+          "to_table": "courses",
+          "to_column": "category_id",
+          "join_condition": "categories.category_id = courses.category_id"
+        }
+      ],
+      "common_queries": [
+        "List all categories",
+        "Get courses in a category",
+        "Show category hierarchy"
+      ]
+    },
+    {
+      "table_name": "courses",
+      "description": "Available courses with details and enrollment info",
+      "business_context": "Course catalog with pricing, difficulty, and ratings",
+      "row_count": 8,
+      "columns": [
+        {
+          "name": "course_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Unique course identifier",
+          "sample_values": [
+            1,
+            4,
+            5,
+            3,
+            6
+          ]
+        },
+        {
+          "name": "course_code",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Short code for the course (e.g., WEB101)",
+          "sample_values": [
+            "DS101",
+            "ML101",
+            "ML201",
+            "MOB101",
+            "UX101"
+          ]
+        },
+        {
+          "name": "title",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Full course title",
+          "sample_values": [
+            "Introduction to Web Development",
+            "Advanced React Development",
+            "Machine Learning Fundamentals",
+            "Data Analysis with Python",
+            "UI/UX Design Principles"
+          ]
+        },
+        {
+          "name": "description",
+          "data_type": "text",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "Learn HTML, CSS, and JavaScript fundamentals",
+            "Master React hooks, context, and state management",
+            "Introduction to supervised and unsupervised learning",
+            "Pandas, NumPy, and data visualization",
+            "User-centered design and prototyping"
+          ]
+        },
+        {
+          "name": "category_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "categories.category_id",
+          "description": "",
+          "sample_values": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "instructor_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "instructors.instructor_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "difficulty_level",
+          "data_type": "enum",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Course difficulty: beginner, intermediate, or advanced",
+          "sample_values": [
+            "beginner",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "name": "duration_hours",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Estimated hours to complete",
+          "sample_values": [
+            40,
+            60,
+            80,
+            50,
+            35
+          ]
+        },
+        {
+          "name": "price",
+          "data_type": "decimal",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Course price in USD",
+          "sample_values": [
+            "49.99",
+            "89.99",
+            "129.99",
+            "69.99",
+            "59.99"
+          ]
+        },
+        {
+          "name": "max_students",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            500,
+            300,
+            400,
+            450,
+            350
+          ]
+        },
+        {
+          "name": "enrollment_count",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Number of students enrolled",
+          "sample_values": [
+            324,
+            156,
+            289,
+            378,
+            245
+          ]
+        },
+        {
+          "name": "rating",
+          "data_type": "decimal",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Average course rating (0-5)",
+          "sample_values": [
+            "4.50",
+            "4.60",
+            "4.70",
+            "4.80",
+            "4.90"
+          ]
+        },
+        {
+          "name": "is_published",
+          "data_type": "tinyint",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1
+          ]
+        },
+        {
+          "name": "publish_date",
+          "data_type": "date",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2023-01-01",
+            "2023-02-01",
+            "2023-01-15",
+            "2023-01-20",
+            "2023-03-01"
+          ]
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2025-11-24 02:06:41"
+          ]
+        },
+        {
+          "name": "updated_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2025-11-24 02:06:41"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "course_code",
+          "columns": [
+            "course_code"
+          ],
+          "is_unique": true
+        },
+        {
+          "index_name": "idx_category",
+          "columns": [
+            "category_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_difficulty",
+          "columns": [
+            "difficulty_level"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_instructor",
+          "columns": [
+            "instructor_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_rating",
+          "columns": [
+            "rating"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "course_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "many-to-one",
+          "from_column": "category_id",
+          "to_table": "categories",
+          "to_column": "category_id",
+          "join_condition": "courses.category_id = categories.category_id"
+        },
+        {
+          "type": "many-to-one",
+          "from_column": "instructor_id",
+          "to_table": "instructors",
+          "to_column": "instructor_id",
+          "join_condition": "courses.instructor_id = instructors.instructor_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "course_id",
+          "to_table": "enrollments",
+          "to_column": "course_id",
+          "join_condition": "courses.course_id = enrollments.course_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "course_id",
+          "to_table": "lessons",
+          "to_column": "course_id",
+          "join_condition": "courses.course_id = lessons.course_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "course_id",
+          "to_table": "quizzes",
+          "to_column": "course_id",
+          "join_condition": "courses.course_id = quizzes.course_id"
+        }
+      ],
+      "common_queries": [
+        "Find courses by category",
+        "Show most popular courses",
+        "Get beginner-level courses"
+      ]
+    },
+    {
+      "table_name": "enrollments",
+      "description": "Student course enrollments and progress tracking",
+      "business_context": "Links students to courses with completion status",
+      "row_count": 17,
+      "columns": [
+        {
+          "name": "enrollment_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Unique enrollment identifier",
+          "sample_values": [
+            13,
+            2,
+            5,
+            8,
+            10
+          ]
+        },
+        {
+          "name": "student_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "students.student_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "course_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "courses.course_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "enrollment_date",
+          "data_type": "date",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2023-01-15",
+            "2023-02-01",
+            "2023-02-05",
+            "2023-02-10",
+            "2023-02-20"
+          ]
+        },
+        {
+          "name": "completion_date",
+          "data_type": "date",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2023-03-20",
+            "2023-04-15",
+            "2023-04-10",
+            "2023-04-20",
+            "2023-04-05"
+          ]
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Enrollment status: enrolled, in_progress, completed, or dropped",
+          "sample_values": [
+            "enrolled",
+            "in_progress",
+            "completed",
+            "dropped"
+          ]
+        },
+        {
+          "name": "progress_percentage",
+          "data_type": "decimal",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Course completion percentage (0-100)",
+          "sample_values": [
+            "100.00",
+            "45.00",
+            "65.00",
+            "30.00",
+            "55.00"
+          ]
+        },
+        {
+          "name": "final_grade",
+          "data_type": "decimal",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Student's final grade (0-100)",
+          "sample_values": [
+            "92.50",
+            "88.00",
+            "95.50",
+            "91.00",
+            "87.50"
+          ]
+        },
+        {
+          "name": "certificate_issued",
+          "data_type": "tinyint",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Whether completion certificate was issued",
+          "sample_values": [
+            1,
+            0
+          ]
+        },
+        {
+          "name": "certificate_issue_date",
+          "data_type": "date",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": []
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "idx_course",
+          "columns": [
+            "course_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_enrollment_date",
+          "columns": [
+            "enrollment_date"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_status",
+          "columns": [
+            "status"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_student",
+          "columns": [
+            "student_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "enrollment_id"
+          ],
+          "is_unique": true
+        },
+        {
+          "index_name": "unique_enrollment",
+          "columns": [
+            "student_id",
+            "course_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "many-to-one",
+          "from_column": "student_id",
+          "to_table": "students",
+          "to_column": "student_id",
+          "join_condition": "enrollments.student_id = students.student_id"
+        },
+        {
+          "type": "many-to-one",
+          "from_column": "course_id",
+          "to_table": "courses",
+          "to_column": "course_id",
+          "join_condition": "enrollments.course_id = courses.course_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "enrollment_id",
+          "to_table": "lesson_progress",
+          "to_column": "enrollment_id",
+          "join_condition": "enrollments.enrollment_id = lesson_progress.enrollment_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "enrollment_id",
+          "to_table": "quiz_attempts",
+          "to_column": "enrollment_id",
+          "join_condition": "enrollments.enrollment_id = quiz_attempts.enrollment_id"
+        }
+      ],
+      "common_queries": [
+        "Get student enrollments",
+        "Find completed courses",
+        "Show courses in progress"
+      ]
+    },
+    {
+      "table_name": "instructors",
+      "description": "Instructors who teach courses on the platform",
+      "business_context": "Teacher information including ratings and experience",
+      "row_count": 5,
+      "columns": [
+        {
+          "name": "instructor_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            4,
+            3,
+            1,
+            5,
+            2
+          ]
+        },
+        {
+          "name": "email",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "david.kim@elearn.com",
+            "emily.rodriguez@elearn.com",
+            "lisa.williams@elearn.com",
+            "michael.chen@elearn.com",
+            "sarah.johnson@elearn.com"
+          ]
+        },
+        {
+          "name": "first_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "Sarah",
+            "Michael",
+            "Emily",
+            "David",
+            "Lisa"
+          ]
+        },
+        {
+          "name": "last_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "Johnson",
+            "Chen",
+            "Rodriguez",
+            "Kim",
+            "Williams"
+          ]
+        },
+        {
+          "name": "bio",
+          "data_type": "text",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "Full-stack developer with 10+ years experience",
+            "Data scientist specializing in ML and AI",
+            "UX designer and product strategist",
+            "Mobile app developer, iOS expert",
+            "Business analyst and data visualization expert"
+          ]
+        },
+        {
+          "name": "specialization",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "Web Development",
+            "Machine Learning",
+            "Design",
+            "Mobile Development",
+            "Data Analysis"
+          ]
+        },
+        {
+          "name": "years_experience",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            10,
+            8,
+            7,
+            6,
+            12
+          ]
+        },
+        {
+          "name": "rating",
+          "data_type": "decimal",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "4.65",
+            "4.78",
+            "4.85",
+            "4.88",
+            "4.92"
+          ]
+        },
+        {
+          "name": "total_students_taught",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            15420,
+            12350,
+            8900,
+            6200,
+            18700
+          ]
+        },
+        {
+          "name": "hire_date",
+          "data_type": "date",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2020-01-15",
+            "2020-03-20",
+            "2021-06-10",
+            "2021-09-01",
+            "2019-05-15"
+          ]
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "active"
+          ]
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2025-11-24 02:06:41"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "email",
+          "columns": [
+            "email"
+          ],
+          "is_unique": true
+        },
+        {
+          "index_name": "idx_rating",
+          "columns": [
+            "rating"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "instructor_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "one-to-many",
+          "from_column": "instructor_id",
+          "to_table": "courses",
+          "to_column": "instructor_id",
+          "join_condition": "instructors.instructor_id = courses.instructor_id"
+        }
+      ],
+      "common_queries": [
+        "Find top-rated instructors",
+        "Get instructors by specialization",
+        "Show most popular instructors"
+      ]
+    },
+    {
+      "table_name": "lesson_progress",
+      "description": "Student progress through individual lessons",
+      "business_context": "Tracks which lessons students have completed",
+      "row_count": 6,
+      "columns": [
+        {
+          "name": "progress_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "enrollment_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "enrollments.enrollment_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "lesson_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "lessons.lesson_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            11
+          ]
+        },
+        {
+          "name": "started_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2023-01-15 10:00:00",
+            "2023-01-16 14:00:00",
+            "2023-01-18 09:00:00",
+            "2023-02-20 11:00:00",
+            "2023-02-21 13:00:00"
+          ]
+        },
+        {
+          "name": "completed_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2023-01-15 10:45:00",
+            "2023-01-16 15:00:00",
+            "2023-01-18 09:55:00",
+            "2023-02-20 11:45:00",
+            "2023-02-21 14:00:00"
+          ]
+        },
+        {
+          "name": "time_spent_minutes",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            45,
+            60,
+            55,
+            50
+          ]
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "completed"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "idx_enrollment",
+          "columns": [
+            "enrollment_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_status",
+          "columns": [
+            "status"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "lesson_id",
+          "columns": [
+            "lesson_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "progress_id"
+          ],
+          "is_unique": true
+        },
+        {
+          "index_name": "unique_lesson_progress",
+          "columns": [
+            "enrollment_id",
+            "lesson_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "many-to-one",
+          "from_column": "enrollment_id",
+          "to_table": "enrollments",
+          "to_column": "enrollment_id",
+          "join_condition": "lesson_progress.enrollment_id = enrollments.enrollment_id"
+        },
+        {
+          "type": "many-to-one",
+          "from_column": "lesson_id",
+          "to_table": "lessons",
+          "to_column": "lesson_id",
+          "join_condition": "lesson_progress.lesson_id = lessons.lesson_id"
+        }
+      ],
+      "common_queries": [
+        "Get completed lessons",
+        "Show lesson completion time",
+        "Find lessons in progress"
+      ]
+    },
+    {
+      "table_name": "lessons",
+      "description": "Individual lessons within courses",
+      "business_context": "Course content broken into learning units",
+      "row_count": 13,
+      "columns": [
+        {
+          "name": "lesson_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "course_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "courses.course_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "lesson_number",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "title",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "Introduction to HTML",
+            "HTML Elements and Structure",
+            "CSS Fundamentals",
+            "CSS Layout and Flexbox",
+            "JavaScript Basics"
+          ]
+        },
+        {
+          "name": "content_type",
+          "data_type": "enum",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "video",
+            "interactive"
+          ]
+        },
+        {
+          "name": "duration_minutes",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            45,
+            60,
+            55,
+            70,
+            65
+          ]
+        },
+        {
+          "name": "is_preview",
+          "data_type": "tinyint",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1,
+            0
+          ]
+        },
+        {
+          "name": "video_url",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": []
+        },
+        {
+          "name": "content_text",
+          "data_type": "text",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": []
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2025-11-24 02:06:41"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "idx_course",
+          "columns": [
+            "course_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "lesson_id"
+          ],
+          "is_unique": true
+        },
+        {
+          "index_name": "unique_lesson_number",
+          "columns": [
+            "course_id",
+            "lesson_number"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "many-to-one",
+          "from_column": "course_id",
+          "to_table": "courses",
+          "to_column": "course_id",
+          "join_condition": "lessons.course_id = courses.course_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "lesson_id",
+          "to_table": "lesson_progress",
+          "to_column": "lesson_id",
+          "join_condition": "lessons.lesson_id = lesson_progress.lesson_id"
+        }
+      ],
+      "common_queries": [
+        "Get lessons for a course",
+        "Find video lessons",
+        "Show lesson duration"
+      ]
+    },
+    {
+      "table_name": "quiz_attempts",
+      "description": "Student quiz attempt records with scores",
+      "business_context": "Tracks quiz performance and attempts",
+      "row_count": 5,
+      "columns": [
+        {
+          "name": "attempt_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "enrollment_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "enrollments.enrollment_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            4
+          ]
+        },
+        {
+          "name": "quiz_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "quizzes.quiz_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            5
+          ]
+        },
+        {
+          "name": "attempt_number",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1
+          ]
+        },
+        {
+          "name": "started_at",
+          "data_type": "timestamp",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2023-01-20 10:00:00",
+            "2023-02-15 14:00:00",
+            "2023-03-18 09:00:00",
+            "2023-02-25 11:00:00",
+            "2023-04-10 15:00:00"
+          ]
+        },
+        {
+          "name": "submitted_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2023-01-20 10:25:00",
+            "2023-02-15 14:28:00",
+            "2023-03-18 10:15:00",
+            "2023-02-25 11:22:00",
+            "2023-04-10 15:45:00"
+          ]
+        },
+        {
+          "name": "score",
+          "data_type": "decimal",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "85.00",
+            "88.00",
+            "90.00",
+            "92.50",
+            "95.00"
+          ]
+        },
+        {
+          "name": "passed",
+          "data_type": "tinyint",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1
+          ]
+        },
+        {
+          "name": "time_taken_minutes",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            25,
+            28,
+            75,
+            22,
+            45
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "idx_enrollment",
+          "columns": [
+            "enrollment_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_quiz",
+          "columns": [
+            "quiz_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_score",
+          "columns": [
+            "score"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "attempt_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "many-to-one",
+          "from_column": "enrollment_id",
+          "to_table": "enrollments",
+          "to_column": "enrollment_id",
+          "join_condition": "quiz_attempts.enrollment_id = enrollments.enrollment_id"
+        },
+        {
+          "type": "many-to-one",
+          "from_column": "quiz_id",
+          "to_table": "quizzes",
+          "to_column": "quiz_id",
+          "join_condition": "quiz_attempts.quiz_id = quizzes.quiz_id"
+        }
+      ],
+      "common_queries": [
+        "Get quiz scores",
+        "Find passing attempts",
+        "Show average scores"
+      ]
+    },
+    {
+      "table_name": "quiz_questions",
+      "description": "Individual questions within quizzes",
+      "business_context": "Question bank for assessments",
+      "row_count": 5,
+      "columns": [
+        {
+          "name": "question_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "quiz_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "quizzes.quiz_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2
+          ]
+        },
+        {
+          "name": "question_text",
+          "data_type": "text",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "What does HTML stand for?",
+            "Which tag is used for the largest heading?",
+            "HTML is a programming language",
+            "Which property is used to change background color?",
+            "CSS stands for Cascading Style Sheets"
+          ]
+        },
+        {
+          "name": "question_type",
+          "data_type": "enum",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "multiple_choice",
+            "true_false"
+          ]
+        },
+        {
+          "name": "correct_answer",
+          "data_type": "text",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "HyperText Markup Language",
+            "h1",
+            "false",
+            "background-color",
+            "true"
+          ]
+        },
+        {
+          "name": "points",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1
+          ]
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2025-11-24 02:06:41"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "idx_quiz",
+          "columns": [
+            "quiz_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "question_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "many-to-one",
+          "from_column": "quiz_id",
+          "to_table": "quizzes",
+          "to_column": "quiz_id",
+          "join_condition": "quiz_questions.quiz_id = quizzes.quiz_id"
+        }
+      ],
+      "common_queries": [
+        "Get questions for a quiz",
+        "Count questions by type",
+        "Show question points"
+      ]
+    },
+    {
+      "table_name": "quizzes",
+      "description": "Assessments and exams for courses",
+      "business_context": "Tests to evaluate student learning",
+      "row_count": 5,
+      "columns": [
+        {
+          "name": "quiz_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "course_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "foreign_key_ref": "courses.course_id",
+          "description": "",
+          "sample_values": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "title",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "HTML Basics Quiz",
+            "CSS Fundamentals Quiz",
+            "Web Development Final Exam",
+            "React Hooks Assessment",
+            "ML Fundamentals Quiz"
+          ]
+        },
+        {
+          "name": "description",
+          "data_type": "text",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "Test your HTML knowledge",
+            "Test your CSS skills",
+            "Comprehensive final assessment",
+            "Test your understanding of React hooks",
+            "Machine learning concepts"
+          ]
+        },
+        {
+          "name": "passing_score",
+          "data_type": "decimal",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "70.00",
+            "75.00"
+          ]
+        },
+        {
+          "name": "time_limit_minutes",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            30,
+            90,
+            45,
+            60
+          ]
+        },
+        {
+          "name": "max_attempts",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            3,
+            2
+          ]
+        },
+        {
+          "name": "is_final_exam",
+          "data_type": "tinyint",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            0,
+            1
+          ]
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2025-11-24 02:06:41"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "idx_course",
+          "columns": [
+            "course_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "quiz_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "many-to-one",
+          "from_column": "course_id",
+          "to_table": "courses",
+          "to_column": "course_id",
+          "join_condition": "quizzes.course_id = courses.course_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "quiz_id",
+          "to_table": "quiz_attempts",
+          "to_column": "quiz_id",
+          "join_condition": "quizzes.quiz_id = quiz_attempts.quiz_id"
+        },
+        {
+          "type": "one-to-many",
+          "from_column": "quiz_id",
+          "to_table": "quiz_questions",
+          "to_column": "quiz_id",
+          "join_condition": "quizzes.quiz_id = quiz_questions.quiz_id"
+        }
+      ],
+      "common_queries": [
+        "Get quizzes for a course",
+        "Find final exams",
+        "Show quiz passing scores"
+      ]
+    },
+    {
+      "table_name": "students",
+      "description": "Students enrolled in the e-learning platform",
+      "business_context": "Core user table tracking student information and progress",
+      "row_count": 8,
+      "columns": [
+        {
+          "name": "student_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Unique identifier for each student",
+          "sample_values": [
+            1,
+            3,
+            8,
+            2,
+            5
+          ]
+        },
+        {
+          "name": "email",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Student's email address (login credential)",
+          "sample_values": [
+            "alex.brown@email.com",
+            "emma.davis@email.com",
+            "james.wilson@email.com",
+            "jane.smith@email.com",
+            "john.doe@email.com"
+          ]
+        },
+        {
+          "name": "first_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Student's first name",
+          "sample_values": [
+            "John",
+            "Jane",
+            "Alex",
+            "Maria",
+            "James"
+          ]
+        },
+        {
+          "name": "last_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Student's last name",
+          "sample_values": [
+            "Doe",
+            "Smith",
+            "Brown",
+            "Garcia",
+            "Wilson"
+          ]
+        },
+        {
+          "name": "date_of_birth",
+          "data_type": "date",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Student's birth date",
+          "sample_values": [
+            "1995-03-15",
+            "1998-07-22",
+            "1992-11-30",
+            "1996-05-08",
+            "1994-09-12"
+          ]
+        },
+        {
+          "name": "country",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Student's country of residence",
+          "sample_values": [
+            "USA",
+            "Canada",
+            "UK",
+            "Spain",
+            "Australia"
+          ]
+        },
+        {
+          "name": "enrollment_date",
+          "data_type": "date",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Date when student joined platform",
+          "sample_values": [
+            "2023-01-10",
+            "2023-01-20",
+            "2023-01-30",
+            "2023-02-14",
+            "2023-02-28"
+          ]
+        },
+        {
+          "name": "account_status",
+          "data_type": "enum",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Account status: active, inactive, or suspended",
+          "sample_values": [
+            "active",
+            "suspended"
+          ]
+        },
+        {
+          "name": "total_courses_completed",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "Total number of courses student has finished",
+          "sample_values": [
+            3,
+            5,
+            2,
+            4,
+            1
+          ]
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2025-11-24 02:06:41"
+          ]
+        },
+        {
+          "name": "updated_at",
+          "data_type": "timestamp",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "foreign_key_ref": null,
+          "description": "",
+          "sample_values": [
+            "2025-11-24 02:06:41"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "email",
+          "columns": [
+            "email"
+          ],
+          "is_unique": true
+        },
+        {
+          "index_name": "idx_email",
+          "columns": [
+            "email"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_enrollment_date",
+          "columns": [
+            "enrollment_date"
+          ],
+          "is_unique": false
+        },
+        {
+          "index_name": "PRIMARY",
+          "columns": [
+            "student_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "one-to-many",
+          "from_column": "student_id",
+          "to_table": "enrollments",
+          "to_column": "student_id",
+          "join_condition": "students.student_id = enrollments.student_id"
+        }
+      ],
+      "common_queries": [
+        "Find students by country",
+        "Get active students",
+        "Show students who completed most courses"
+      ]
+    }
+  ]
+}
